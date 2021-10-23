@@ -41,7 +41,7 @@
                     </thead>
                     <tbody>
                     <% DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-                        for (Post post : Store.instOf().findAll()) { %>
+                        for (Post post : Store.instOf().findAllPosts()) { %>
                     <tr>
                         <td><%= post.getId() %>
                         </td>
