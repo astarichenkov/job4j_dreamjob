@@ -23,6 +23,13 @@ public class Post {
         this.created = LocalDateTime.now();
     }
 
+    public Post(int id, String name, String description) {
+        this.id = id;
+        this.name = name;
+        this.description = description;
+        this.created = LocalDateTime.now();
+    }
+
     public int getId() {
         return id;
     }
