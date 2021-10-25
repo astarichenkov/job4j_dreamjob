@@ -1,7 +1,6 @@
 package ru.job4j.dream.servlet;
 
 import ru.job4j.dream.model.Candidate;
-import ru.job4j.dream.model.Post;
 import ru.job4j.dream.store.Store;
 
 import javax.servlet.ServletException;
@@ -17,7 +16,7 @@ public class CandidateServlet extends HttpServlet {
         Store.instOf().save(new Candidate(
                 Integer.parseInt(req.getParameter("id")),
                 req.getParameter("name")));
-        resp.sendRedirect(req.getContextPath() + "/candidates.jsp");
+        resp.sendRedirect(req.getContextPath() + "/candidates.do");
     }
 
     @Override
