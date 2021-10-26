@@ -54,7 +54,8 @@
                 <table class="table">
                     <thead>
                     <tr>
-                        <th scope="col">Названия</th>
+                        <th scope="col">#</th>
+                        <th scope="col">Имя</th>
                     </tr>
                     </thead>
                     <tbody>
@@ -62,6 +63,9 @@
                         <tr>
                             <td>
                                 <a href='<c:url value="/candidate/edit.jsp?id=${can.id}"/>'>
+                                    <i class="fa fa-edit mr-3"></i>
+                                </a>
+                                <a href='<c:url value="/candidate/remove?id=${can.id}"/>'>
                                     <i class="fa fa-edit mr-3"></i>
                                 </a>
                                 <c:out value="${can.id}"/>
@@ -73,6 +77,7 @@
                     </c:forEach>
                     </tbody>
                 </table>
+                <input type="button" class="btn btn-primary" onclick="location.href='/dreamjob/candidate/edit.jsp';" value="Добавить" />
             </div>
         </div>
     </div>
