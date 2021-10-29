@@ -56,6 +56,7 @@
                     <tr>
                         <th scope="col">#</th>
                         <th scope="col">Имя</th>
+                        <th scope="col">Фото</th>
                     </tr>
                     </thead>
                     <tbody>
@@ -63,21 +64,34 @@
                         <tr>
                             <td>
                                 <a href='<c:url value="/candidate/edit.jsp?id=${can.id}"/>'>
-                                    <i class="fa fa-edit mr-3"></i>
+                                    <i class="fa fa-edit mr-2"></i>
                                 </a>
                                 <a href='<c:url value="/candidate/remove?id=${can.id}"/>'>
-                                    <i class="fa fa-edit mr-3"></i>
+                                    <i class="fa fa-times mr-2"></i>
                                 </a>
                                 <c:out value="${can.id}"/>
                             </td>
                             <td>
                                 <c:out value="${can.name}"/>
                             </td>
+                            <td>
+                                <img src="<c:url value='/download?id=${can.id}'/>" width="100px" height="100px"/>
+                                <br>
+                                <a href='<c:url value="/candidate/photo-upload.do?id=${can.id}"/>'>
+                                    <i class="fa fa-user-plus mr-2"></i>
+                                </a>
+                                <a href='<c:url value="/candidate/photo-remove.do?id=${can.id}"/>'>
+
+                                    <i class="fa fa-times mr-2"></i>
+                                </a>
+
+                            </td>
                         </tr>
                     </c:forEach>
                     </tbody>
                 </table>
-                <input type="button" class="btn btn-primary" onclick="location.href='/dreamjob/candidate/edit.jsp';" value="Добавить" />
+                <input type="button" class="btn btn-primary" onclick="location.href='/dreamjob/candidate/edit.jsp';"
+                       value="Добавить"/>
             </div>
         </div>
     </div>

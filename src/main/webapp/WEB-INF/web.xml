@@ -24,12 +24,16 @@
         <servlet-class>ru.job4j.dream.servlet.DownloadServlet</servlet-class>
     </servlet>
     <servlet>
-        <servlet-name>UploadServlet</servlet-name>
-        <servlet-class>ru.job4j.dream.servlet.UploadServlet</servlet-class>
-    </servlet>
-    <servlet>
         <servlet-name>RemoveCandidateServlet</servlet-name>
         <servlet-class>ru.job4j.dream.servlet.RemoveCandidateServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>PhotoUploadServlet</servlet-name>
+        <servlet-class>ru.job4j.dream.servlet.PhotoUploadServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>RemovePhotoServlet</servlet-name>
+        <servlet-class>ru.job4j.dream.servlet.RemovePhotoServlet</servlet-class>
     </servlet>
 
     <servlet-mapping>
@@ -49,13 +53,18 @@
         <url-pattern>/download</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
-        <servlet-name>UploadServlet</servlet-name>
-        <url-pattern>/upload</url-pattern>
-    </servlet-mapping>
-    <servlet-mapping>
         <servlet-name>RemoveCandidateServlet</servlet-name>
         <url-pattern>/candidate/remove</url-pattern>
     </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>PhotoUploadServlet</servlet-name>
+        <url-pattern>/candidate/photo-upload.do</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>RemovePhotoServlet</servlet-name>
+        <url-pattern>/candidate/photo-remove.do</url-pattern>
+    </servlet-mapping>
+
 
 
 </web-app>
