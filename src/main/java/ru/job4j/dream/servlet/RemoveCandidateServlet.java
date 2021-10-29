@@ -1,5 +1,6 @@
 package ru.job4j.dream.servlet;
 
+import ru.job4j.dream.store.DbStore;
 import ru.job4j.dream.store.MemStore;
 import ru.job4j.dream.utils.FileUtils;
 
@@ -20,7 +21,7 @@ public class RemoveCandidateServlet extends HttpServlet {
         if (file != null) {
             Files.delete(Paths.get(file.getAbsolutePath()));
         }
-        MemStore.instOf().removeCandidateById(Integer.parseInt(id));
+        DbStore.instOf().removeCandidateById(Integer.parseInt(id));
         resp.sendRedirect(req.getContextPath() + "/candidates.do");
     }
 }

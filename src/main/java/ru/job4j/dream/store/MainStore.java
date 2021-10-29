@@ -11,7 +11,7 @@ public class MainStore {
             System.out.println(post.getId() + " " + post.getName());
         }
         System.out.println();
-        System.out.println(store.findById(2).getName());
+        System.out.println(store.findPostById(2).getName());
         System.out.println();
         for (Candidate candidate : store.findAllCandidates()) {
             System.out.println(candidate.getId() + " " + candidate.getName());
