@@ -4,6 +4,9 @@ import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.fileupload.FileUploadException;
 import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import ru.job4j.dream.store.DbStore;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletContext;
@@ -18,6 +21,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class UploadServlet extends HttpServlet {
+    private static final Logger LOG = LoggerFactory.getLogger(DbStore.class.getName());
+
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         List<String> images = new ArrayList<>();
@@ -51,7 +56,7 @@ public class UploadServlet extends HttpServlet {
                 }
             }
         } catch (FileUploadException e) {
-            e.printStackTrace();
+            LOG.error(e.getMessage());
         }
         doGet(req, resp);
     }

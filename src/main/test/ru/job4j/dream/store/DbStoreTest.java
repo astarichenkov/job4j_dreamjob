@@ -1,6 +1,5 @@
 package ru.job4j.dream.store;
 
-import org.apache.commons.dbcp2.BasicDataSource;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
@@ -8,24 +7,23 @@ import org.junit.Test;
 import ru.job4j.dream.model.Candidate;
 import ru.job4j.dream.model.Post;
 
-import java.io.File;
-import java.io.FileInputStream;
 import java.io.InputStream;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Properties;
+
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.CoreMatchers.is;
 
 public class DbStoreTest {
 
-    static Connection connection;
+    private static Connection connection;
+
 
     @BeforeClass
     public static void initConnection() {
