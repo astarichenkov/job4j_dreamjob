@@ -2,6 +2,7 @@
 <%@ page import="ru.job4j.dream.store.MemStore" %>
 <%@ page import="ru.job4j.dream.model.Post" %>
 <%@ page import="ru.job4j.dream.store.DbStore" %>
+<%@ page import="ru.job4j.dream.model.User" %>
 <!doctype html>
 <html lang="en">
 <head>
@@ -36,6 +37,13 @@
             </li>
             <li class="nav-item">
                 <a class="nav-link" href="<%=request.getContextPath()%>/candidate/edit.jsp">Добавить кандидата</a>
+            </li>
+            <%
+                User user = (User) request.getSession().getAttribute("user");
+            %>
+            <li class="nav-item">
+                <a class="nav-link" href="<%=request.getContextPath()%>/logout.do"><%=user.getName()%> |
+                    Выйти</a>
             </li>
         </ul>
     </div>
