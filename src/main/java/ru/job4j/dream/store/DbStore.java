@@ -69,7 +69,7 @@ public class DbStore implements Store {
                 }
             }
         } catch (Exception e) {
-            LOG.error(e.getMessage());
+            LOG.error("Message", e);
         }
         return posts;
     }
@@ -85,7 +85,7 @@ public class DbStore implements Store {
                 }
             }
         } catch (Exception e) {
-            LOG.error(e.getMessage());
+            LOG.error("Message", e);
         }
         return candidates;
     }
@@ -118,7 +118,7 @@ public class DbStore implements Store {
                 }
             }
         } catch (Exception e) {
-            LOG.error(e.getMessage());
+            LOG.error("Message", e);
         }
         return null;
     }
@@ -131,7 +131,7 @@ public class DbStore implements Store {
             statement.setInt(1, id);
             statement.executeUpdate();
         } catch (Exception e) {
-            LOG.error(e.getMessage());
+            LOG.error("Message", e);
         }
     }
 
@@ -161,7 +161,7 @@ public class DbStore implements Store {
             statement.setInt(2, candidate.getId());
             statement.executeUpdate();
         } catch (Exception e) {
-            LOG.error(e.getMessage());
+            LOG.error("Message", e);
         }
     }
 
@@ -180,7 +180,7 @@ public class DbStore implements Store {
                 }
             }
         } catch (Exception e) {
-            LOG.error(e.getMessage());
+            LOG.error("Message", e);
         }
         return post;
     }
@@ -193,7 +193,7 @@ public class DbStore implements Store {
             statement.setInt(2, post.getId());
             statement.executeUpdate();
         } catch (Exception e) {
-            LOG.error(e.getMessage());
+            LOG.error("Message", e);
         }
     }
 
@@ -208,7 +208,7 @@ public class DbStore implements Store {
                 }
             }
         } catch (Exception e) {
-            LOG.error(e.getMessage());
+            LOG.error("Message", e);
         }
         return null;
     }
