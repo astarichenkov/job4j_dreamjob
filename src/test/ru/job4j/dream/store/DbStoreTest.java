@@ -6,6 +6,7 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 import ru.job4j.dream.model.Candidate;
 import ru.job4j.dream.model.Post;
+import ru.job4j.dream.model.User;
 
 import java.io.InputStream;
 import java.sql.Connection;
@@ -55,12 +56,19 @@ public class DbStoreTest {
         try (PreparedStatement statement = connection.prepareStatement("delete from candidate")) {
             statement.execute();
         }
+        try (PreparedStatement statement = connection.prepareStatement("delete from users")) {
+            statement.execute();
+        }
         try (PreparedStatement statement = connection.prepareStatement("ALTER TABLE post ALTER COLUMN id RESTART WITH 1")) {
             statement.execute();
         }
         try (PreparedStatement statement = connection.prepareStatement("ALTER TABLE candidate ALTER COLUMN id RESTART WITH 1")) {
             statement.execute();
         }
+        try (PreparedStatement statement = connection.prepareStatement("ALTER TABLE users ALTER COLUMN id RESTART WITH 1")) {
+            statement.execute();
+        }
+
     }
 
     @Test
@@ -105,5 +113,35 @@ public class DbStoreTest {
         store.removeCandidateById(1);
         candidates = store.findAllCandidates();
         assertThat(candidates.isEmpty(), is(true));
+    }
+
+    @Test
+    public void whenFindByEmail() {
+        Store store = DbStore.instOf();
+        User user = new User(0, "Admin", "root@local", "root");
+        store.save(user);
+        User userInDb = store.findByEmail(user.getEmail());
+        assertThat(userInDb, is(user));
+    }
+
+    @Test
+    public void whenFindUserById() {
+        Store store = DbStore.instOf();
+        User user = new User(0, "Admin", "root@local", "root");
+        store.save(user);
+        User userInDb = store.findUserById(user.getId());
+        assertThat(userInDb, is(user));
+    }
+
+    @Test
+    public void findAllUsers() {
+        Collection<User> users;
+        Store store = DbStore.instOf();
+        User first = new User(0, "Admin", "root@local", "root");
+        User second = new User(0, "User", "user@mail.ru", "123");
+        store.save(first);
+        store.save(second);
+        users = store.findAllUsers();
+        assertThat(users, is(List.of(first, second)));
     }
 }

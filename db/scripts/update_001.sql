@@ -10,5 +10,12 @@ CREATE TABLE candidate (
                       name TEXT
 );
 
+CREATE TABLE users (
+                           id SERIAL PRIMARY KEY,
+                           name TEXT,
+                           email VARCHAR(255),
+                           password VARCHAR(255)
+);
+
 ALTER TABLE post ALTER COLUMN id RESTART WITH 1;
 DELETE FROM post;
