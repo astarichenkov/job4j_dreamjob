@@ -4,6 +4,7 @@ import org.apache.commons.dbcp2.BasicDataSource;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import ru.job4j.dream.model.Candidate;
+import ru.job4j.dream.model.City;
 import ru.job4j.dream.model.Post;
 import ru.job4j.dream.model.User;
 
@@ -13,10 +14,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Timestamp;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-import java.util.Properties;
+import java.time.LocalDateTime;
+import java.util.*;
 
 public class DbStore implements Store {
     private static final DbStore INSTANCE = new DbStore();
@@ -78,11 +77,11 @@ public class DbStore implements Store {
     public Collection<Candidate> findAllCandidates() {
         List<Candidate> candidates = new ArrayList<>();
         try (Connection cn = pool.getConnection();
-             PreparedStatement ps = cn.prepareStatement("SELECT * FROM candidate")
+             PreparedStatement ps = cn.prepareStatement("SELECT * FROM candidate ORDER BY id")
         ) {
             try (ResultSet it = ps.executeQuery()) {
                 while (it.next()) {
-                    candidates.add(new Candidate(it.getInt("id"), it.getString("name")));
+                    candidates.add(new Candidate(it.getInt("id"), it.getString("name"), it.getInt("city_id")));
                 }
             }
         } catch (Exception e) {
@@ -133,7 +132,7 @@ public class DbStore implements Store {
             ps.setInt(1, parseInt);
             try (ResultSet it = ps.executeQuery()) {
                 if (it.next()) {
-                    return new Candidate(it.getInt("id"), it.getString("name"));
+                    return new Candidate(it.getInt("id"), it.getString("name"), it.getInt("city_id"));
                 }
             }
         } catch (Exception e) {
@@ -214,10 +213,12 @@ public class DbStore implements Store {
 
     private Candidate create(Candidate candidate) {
         try (Connection cn = pool.getConnection();
-             PreparedStatement ps = cn.prepareStatement("INSERT INTO candidate(name) VALUES (?)",
+             PreparedStatement ps = cn.prepareStatement("INSERT INTO candidate(name, city_id, created) VALUES (?, ?, ?)",
                      PreparedStatement.RETURN_GENERATED_KEYS)
         ) {
             ps.setString(1, candidate.getName());
+            ps.setInt(2, candidate.getCityId());
+            ps.setTimestamp(3, Timestamp.valueOf(LocalDateTime.now()));
             ps.execute();
             try (ResultSet id = ps.getGeneratedKeys()) {
                 if (id.next()) {
@@ -233,9 +234,10 @@ public class DbStore implements Store {
     private void update(Candidate candidate) {
         try (Connection cn = pool.getConnection();
              PreparedStatement statement =
-                     cn.prepareStatement("UPDATE candidate SET name = ? WHERE candidate.id = ?")) {
+                     cn.prepareStatement("UPDATE candidate SET name = ?, city_id = ? WHERE candidate.id = ?")) {
             statement.setString(1, candidate.getName());
-            statement.setInt(2, candidate.getId());
+            statement.setInt(2, candidate.getCityId());
+            statement.setInt(3, candidate.getId());
             statement.executeUpdate();
         } catch (Exception e) {
             LOG.error("Message", e);
@@ -290,5 +292,96 @@ public class DbStore implements Store {
         return null;
     }
 
+    public String getCity(int id) {
+        try (Connection cn = pool.getConnection();
+             PreparedStatement ps = cn.prepareStatement("SELECT * FROM city WHERE id = ?")
+        ) {
+            ps.setInt(1, id);
+            try (ResultSet it = ps.executeQuery()) {
+                if (it.next()) {
+                    return it.getString("name");
+                }
+            }
+        } catch (Exception e) {
+            LOG.error("Message", e);
+        }
+        return "";
+    }
+
+    public int getCityIdByName(String name) {
+        try (Connection cn = pool.getConnection();
+             PreparedStatement ps = cn.prepareStatement("SELECT * FROM city WHERE name = ?")
+        ) {
+            ps.setString(1, name);
+            try (ResultSet it = ps.executeQuery()) {
+                if (it.next()) {
+                    return it.getInt("id");
+                }
+            }
+        } catch (Exception e) {
+            LOG.error("Message", e);
+        }
+        return 0;
+    }
+
+
+    @Override
+    public List<City> getAllCities() {
+        List<City> cities = new ArrayList<>();
+        try (Connection cn = pool.getConnection();
+             PreparedStatement ps = cn.prepareStatement("SELECT * FROM city")
+        ) {
+            try (ResultSet it = ps.executeQuery()) {
+                while (it.next()) {
+                    cities.add(new City(it.getString("name")));
+                }
+            }
+        } catch (Exception e) {
+            LOG.error("Message", e);
+        }
+        return cities;
+    }
+
+    @Override
+    public List<Post> getTodayVacancies() {
+        List<Post> posts = new ArrayList<>();
+        try (Connection cn = pool.getConnection();
+             PreparedStatement ps = cn.prepareStatement(
+                     "SELECT * FROM post "
+                             + "WHERE post.created "
+                             + "BETWEEN date_trunc('day', CURRENT_TIMESTAMP) "
+                             + "AND CURRENT_TIMESTAMP AT TIME ZONE 'EETDST'")) {
+            try (ResultSet it = ps.executeQuery()) {
+                while (it.next()) {
+                    posts.add(new Post(it.getInt("id"), it.getString("name"),
+                            it.getString("description"), it.getTimestamp("created").toLocalDateTime()));
+                }
+            }
+        } catch (Exception e) {
+            LOG.error("Message ", e);
+        }
+        return posts;
+    }
+
+    @Override
+    public List<Candidate> getTodayCandidates() {
+        List<Candidate> candidates = new ArrayList<>();
+        try (Connection cn = pool.getConnection();
+             PreparedStatement ps = cn.prepareStatement(
+                     "SELECT * FROM candidate "
+                             + "WHERE candidate.created "
+                             + "BETWEEN date_trunc('day', CURRENT_TIMESTAMP) "
+                             + "AND CURRENT_TIMESTAMP AT TIME ZONE 'EETDST'")) {
+            try (ResultSet it = ps.executeQuery()) {
+                while (it.next()) {
+                    candidates.add(new Candidate(it.getInt("id"), it.getString("name"),
+                            it.getInt("city_id"), it.getTimestamp("created").toLocalDateTime()));
+                }
+            }
+        } catch (Exception e) {
+            LOG.error("Message ", e);
+        }
+        return candidates;
+    }
 
 }

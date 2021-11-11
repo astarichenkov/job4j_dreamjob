@@ -2,7 +2,6 @@ package ru.job4j.dream.servlet;
 
 import ru.job4j.dream.model.Candidate;
 import ru.job4j.dream.store.DbStore;
-import ru.job4j.dream.store.MemStore;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -16,7 +15,8 @@ public class CandidateServlet extends HttpServlet {
         req.setCharacterEncoding("UTF-8");
         DbStore.instOf().save(new Candidate(
                 Integer.parseInt(req.getParameter("id")),
-                req.getParameter("name")));
+                req.getParameter("name"),
+                DbStore.instOf().getCityIdByName(req.getParameter("city"))));
         resp.sendRedirect(req.getContextPath() + "/candidates.do");
     }
 

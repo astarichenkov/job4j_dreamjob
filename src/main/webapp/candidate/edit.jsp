@@ -1,6 +1,5 @@
+<%--@elvariable id="city" type="javax.xml.stream.util.StreamReaderDelegate"--%>
 <%@ page contentType="text/html; charset=UTF-8" %>
-<%@ page import="ru.job4j.dream.store.MemStore" %>
-<%@ page import="ru.job4j.dream.model.Post" %>
 <%@ page import="ru.job4j.dream.model.Candidate" %>
 <%@ page import="ru.job4j.dream.store.DbStore" %>
 <%@ page import="ru.job4j.dream.model.User" %>
@@ -24,12 +23,38 @@
             integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
             crossorigin="anonymous"></script>
 
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $.ajax({
+                type: 'GET',
+                url: 'http://localhost:8080/dreamjob/cities',
+                dataType: 'json'
+            }).done(function (data) {
+                console.log(data.length + ' length');
+                console.log(data);
+                for (let city of data) {
+                    let option = document.createElement("option");
+                    option.text = city.name;
+                    option.value = city.name;
+                    let select = document.getElementById("citiesList");
+                    select.appendChild(option);
+                }
+            }).fail(function (err) {
+                console.log(err);
+            });
+        });
+    </script>
+
     <title>Работа мечты</title>
 </head>
 <body>
 <div class="container">
     <div class="row">
         <ul class="nav">
+            <li class="nav-item">
+                <a class="nav-link" href="<%=request.getContextPath()%>/index.do">Главная</a>
+            </li>
             <li class="nav-item">
                 <a class="nav-link" href="<%=request.getContextPath()%>/posts.do">Вакансии</a>
             </li>
@@ -54,7 +79,7 @@
 </div>
 <%
     String id = request.getParameter("id");
-    Candidate candidate = new Candidate(0, "");
+    Candidate candidate = new Candidate(0, "", 0);
     if (id != null) {
         candidate = DbStore.instOf().findCandidateById(Integer.parseInt(id));
     }
@@ -74,6 +99,12 @@
                     <div class="form-group">
                         <label>Имя</label>
                         <input type="text" class="form-control" name="name" value="<%=candidate.getName()%>">
+                        <label>Город</label>
+                        <select class="form-control" id="citiesList" name="city">
+                            <option>
+                                <%=candidate.getCity()%>
+                            </option>
+                        </select>
                     </div>
                     <button type="submit" class="btn btn-primary">Сохранить</button>
                 </form>

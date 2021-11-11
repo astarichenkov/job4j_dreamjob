@@ -29,6 +29,9 @@
     <div class="row">
         <ul class="nav">
             <li class="nav-item">
+                <a class="nav-link" href="<%=request.getContextPath()%>/index.do">Главная</a>
+            </li>
+            <li class="nav-item">
                 <a class="nav-link" href="<%=request.getContextPath()%>/posts.do">Вакансии</a>
             </li>
             <li class="nav-item">
@@ -62,6 +65,7 @@
                     <tr>
                         <th scope="col">#</th>
                         <th scope="col">Имя</th>
+                        <th scope="col">Город</th>
                         <th scope="col">Фото</th>
                     </tr>
                     </thead>
@@ -79,6 +83,9 @@
                             </td>
                             <td>
                                 <c:out value="${can.name}"/>
+                            </td>
+                            <td>
+                                <c:out value="${can.city}"/>
                             </td>
                             <td>
                                 <img src="<c:url value='/download?id=${can.id}'/>" width="100px" height="100px"/>

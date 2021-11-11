@@ -7,14 +7,21 @@ CREATE TABLE post (
 
 CREATE TABLE candidate (
                       id SERIAL PRIMARY KEY,
-                      name TEXT
+                      name TEXT,
+                      city_id int REFERENCES city(id),
+                      created TIMESTAMP
 );
 
 CREATE TABLE users (
-                           id SERIAL PRIMARY KEY,
-                           name TEXT,
-                           email VARCHAR(255),
-                           password VARCHAR(255)
+                        id SERIAL PRIMARY KEY,
+                        name TEXT,
+                        email VARCHAR(255),
+                        password VARCHAR(255)
+);
+
+CREATE TABLE city (
+                       id SERIAL PRIMARY KEY,
+                       name TEXT
 );
 
 ALTER TABLE post ALTER COLUMN id RESTART WITH 1;

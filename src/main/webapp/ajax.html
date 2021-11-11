@@ -29,6 +29,7 @@
             }),
             dataType: 'json'
         }).done(function (data) {
+            console.log(data)
             $('#emailList li:last').append(`<li>${data.name}</li>`)
         }).fail(function (err) {
             console.log(err);
