@@ -321,7 +321,7 @@ public class DbStore implements Store {
         } catch (Exception e) {
             LOG.error("Message", e);
         }
-        return 0;
+        return -1;
     }
 
 

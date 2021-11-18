@@ -5,6 +5,11 @@ CREATE TABLE post (
                       created TIMESTAMP
 );
 
+CREATE TABLE city (
+                      id SERIAL PRIMARY KEY,
+                      name TEXT
+);
+
 CREATE TABLE candidate (
                       id SERIAL PRIMARY KEY,
                       name TEXT,
@@ -17,11 +22,6 @@ CREATE TABLE users (
                         name TEXT,
                         email VARCHAR(255),
                         password VARCHAR(255)
-);
-
-CREATE TABLE city (
-                       id SERIAL PRIMARY KEY,
-                       name TEXT
 );
 
 ALTER TABLE post ALTER COLUMN id RESTART WITH 1;
