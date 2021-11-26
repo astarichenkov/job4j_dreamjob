@@ -96,8 +96,8 @@ public class DbStoreTest {
     public void findAllCandidates() {
         Collection<Candidate> candidates;
         Store store = DbStore.instOf();
-        Candidate first = new Candidate(0, "Vasya");
-        Candidate second = new Candidate(0, "Slava");
+        Candidate first = new Candidate(0, "Vasya", 1);
+        Candidate second = new Candidate(0, "Slava", 1);
         store.save(first);
         store.save(second);
         candidates = store.findAllCandidates();
@@ -108,7 +108,7 @@ public class DbStoreTest {
     public void whenRemoveCandidateById() {
         Collection<Candidate> candidates;
         Store store = DbStore.instOf();
-        Candidate first = new Candidate(0, "Vasya");
+        Candidate first = new Candidate(0, "Vasya", 1);
         store.save(first);
         store.removeCandidateById(1);
         candidates = store.findAllCandidates();

@@ -142,6 +142,23 @@ public class DbStore implements Store {
     }
 
     @Override
+    public Candidate findCandidateByName(String name) {
+        try (Connection cn = pool.getConnection();
+             PreparedStatement ps = cn.prepareStatement("SELECT * FROM candidate WHERE name = ?")
+        ) {
+            ps.setString(1, name);
+            try (ResultSet it = ps.executeQuery()) {
+                if (it.next()) {
+                    return new Candidate(it.getInt("id"), it.getString("name"), it.getInt("city_id"));
+                }
+            }
+        } catch (Exception e) {
+            LOG.error("Message", e);
+        }
+        return null;
+    }
+
+    @Override
     public void removeCandidateById(int id) {
         try (Connection cn = pool.getConnection();
              PreparedStatement statement =
@@ -291,6 +308,22 @@ public class DbStore implements Store {
         }
         return null;
     }
+
+    @Override
+    public Post findPostByName(String name) {
+        try (Connection cn = pool.getConnection();
+             PreparedStatement ps = cn.prepareStatement("SELECT * FROM post WHERE name = ?")
+        ) {
+            ps.setString(1, name);
+            try (ResultSet it = ps.executeQuery()) {
+                if (it.next()) {
+                    return new Post(it.getInt("id"), it.getString("name"));
+                }
+            }
+        } catch (Exception e) {
+            LOG.error("Message", e);
+        }
+        return null;    }
 
     public String getCity(int id) {
         try (Connection cn = pool.getConnection();
