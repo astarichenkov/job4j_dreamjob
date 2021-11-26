@@ -24,5 +24,6 @@ CREATE TABLE users (
                         password VARCHAR(255)
 );
 
+INSERT INTO city (id, name) values ( 1, 'NN' );
 ALTER TABLE post ALTER COLUMN id RESTART WITH 1;
 DELETE FROM post;
